@@ -9,11 +9,11 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   " Change dates fast
-  Plug 'tpope/vim-speeddating'
+  " Plug 'tpope/vim-speeddating'
   " Convert binary, hex, etc..
-  Plug 'glts/vim-radical'
+  " Plug 'glts/vim-radical'
   " Files
-  Plug 'tpope/vim-eunuch'
+  " Plug 'tpope/vim-eunuch'
   " Repeat stuff
   Plug 'tpope/vim-repeat'
   " Surround
@@ -35,7 +35,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'unblevable/quick-scope'
     " Plug 'easymotion/vim-easymotion'
     " Add some color
-    Plug 'norcalli/nvim-colorizer.lua'
+    " Plug 'norcalli/nvim-colorizer.lua'
     Plug 'junegunn/rainbow_parentheses.vim'
     " Better Syntax Support
     Plug 'sheerun/vim-polyglot'
@@ -46,10 +46,10 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Closetags
     Plug 'alvan/vim-closetag'
     " Themes
-    Plug 'christianchiarulli/onedark.vim'
+    " Plug 'christianchiarulli/onedark.vim'
     " Plug 'kaicataldo/material.vim'
     " Plug 'NLKNguyen/papercolor-theme'
-    " Plug 'tomasiser/vim-code-dark'
+    Plug 'tomasiser/vim-code-dark'
     " Intellisense
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " Status Line
@@ -84,8 +84,21 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     " Plug 'SirVer/ultisnips'
     " Better Comments
     Plug 'jbgutierrez/vim-better-comments'
-    " Echo doc
-    " Plug 'Shougo/echodoc.vim'
+    " TODO configure all plugins below
+    " Gramar corrector
+    Plug 'rhysd/vim-grammarous'
+    " Mercurial support
+    Plug 'ludovicchabant/vim-lawrencium'
+    " Jupyter editing
+    Plug 'goerz/jupytext.vim'
+    " Markdown preview
+    Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+    " Todo text
+    Plug 'freitass/todo.txt-vim'
+    " Testing
+    Plug 'janko-m/vim-test'
+    " Plug 'tpope/vim-dispatch'
+    Plug 'vifm/vifm.vim'
   endif
 
 
