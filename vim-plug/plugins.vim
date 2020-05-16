@@ -8,98 +8,100 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-  " Change dates fast
-  " Plug 'tpope/vim-speeddating'
-  " Convert binary, hex, etc..
-  " Plug 'glts/vim-radical'
-  " Files
-  " Plug 'tpope/vim-eunuch'
-  " Repeat stuff
-  Plug 'tpope/vim-repeat'
-  " Surround
-  Plug 'tpope/vim-surround'
+" Change dates fast
+" Plug 'tpope/vim-speeddating'
+" Convert binary, hex, etc..
+" Plug 'glts/vim-radical'
+" Files
+" Plug 'tpope/vim-eunuch'
+" Repeat stuff
+Plug 'tpope/vim-repeat'
+" Surround
+Plug 'tpope/vim-surround'
+" Better Comments
+Plug 'preservim/nerdcommenter'
+" Have the file system follow you around
+Plug 'airblade/vim-rooter'
+" auto set indent settings
+Plug 'tpope/vim-sleuth'
+
+if exists('g:vscode')
+  " Easy motion for VSCode
+  Plug 'asvetliakov/vim-easymotion'
+
+else
+  " Text Navigation
+  Plug 'justinmk/vim-sneak'
+  Plug 'unblevable/quick-scope'
+  " Plug 'easymotion/vim-easymotion'
+  " Add some color
+  " Plug 'norcalli/nvim-colorizer.lua'
+  Plug 'junegunn/rainbow_parentheses.vim'
+  " Better Syntax Support
+  Plug 'sheerun/vim-polyglot'
+  " Cool Icons
+  Plug 'ryanoasis/vim-devicons'
+  " Auto pairs for '(' '[' '{' 
+  Plug 'jiangmiao/auto-pairs'
+  " Closetags
+  Plug 'alvan/vim-closetag'
+  " Themes
+  " Plug 'christianchiarulli/onedark.vim'
+  " Plug 'kaicataldo/material.vim'
+  " Plug 'NLKNguyen/papercolor-theme'
+  Plug 'tomasiser/vim-code-dark'
+  " Intellisense
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Status Line
+  Plug 'vim-airline/vim-airline'
+  " Plug 'vim-airline/vim-airline-themes'
+  " Ranger
+  Plug 'francoiscabrol/ranger.vim'
+  Plug 'rbgrouleff/bclose.vim'
+  " Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
+  " FZF
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  " Git
+  " Plug 'mhinz/vim-signify'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
+  Plug 'junegunn/gv.vim'
+  " Terminal
+  Plug 'voldikss/vim-floaterm'
+  " Start Screen
+  Plug 'mhinz/vim-startify'
+  " Vista
+  Plug 'liuchengxu/vista.vim'
+  " See what keys do like in emacs
+  Plug 'liuchengxu/vim-which-key'
+  " Zen mode
+  Plug 'junegunn/goyo.vim'
+  " Making stuff
+  Plug 'neomake/neomake'
+  " Snippets TODO fix TAB hijack
+  " Plug 'SirVer/ultisnips'
   " Better Comments
-  Plug 'preservim/nerdcommenter'
-  " Have the file system follow you around
-  Plug 'airblade/vim-rooter'
-  " auto set indent settings
-  Plug 'tpope/vim-sleuth'
-
-  if exists('g:vscode')
-    " Easy motion for VSCode
-    Plug 'asvetliakov/vim-easymotion'
-
-  else
-    " Text Navigation
-    Plug 'justinmk/vim-sneak'
-    Plug 'unblevable/quick-scope'
-    " Plug 'easymotion/vim-easymotion'
-    " Add some color
-    " Plug 'norcalli/nvim-colorizer.lua'
-    Plug 'junegunn/rainbow_parentheses.vim'
-    " Better Syntax Support
-    Plug 'sheerun/vim-polyglot'
-    " Cool Icons
-    Plug 'ryanoasis/vim-devicons'
-    " Auto pairs for '(' '[' '{' 
-    Plug 'jiangmiao/auto-pairs'
-    " Closetags
-    Plug 'alvan/vim-closetag'
-    " Themes
-    " Plug 'christianchiarulli/onedark.vim'
-    " Plug 'kaicataldo/material.vim'
-    " Plug 'NLKNguyen/papercolor-theme'
-    Plug 'tomasiser/vim-code-dark'
-    " Intellisense
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " Status Line
-    Plug 'vim-airline/vim-airline'
-    " Plug 'vim-airline/vim-airline-themes'
-    " Ranger
-    Plug 'francoiscabrol/ranger.vim'
-    Plug 'rbgrouleff/bclose.vim'
-    " Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
-    " FZF
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    " Git
-    " Plug 'mhinz/vim-signify'
-    Plug 'airblade/vim-gitgutter'
-    Plug 'tpope/vim-fugitive'
-    Plug 'tpope/vim-rhubarb'
-    Plug 'junegunn/gv.vim'
-    " Terminal
-    Plug 'voldikss/vim-floaterm'
-    " Start Screen
-    Plug 'mhinz/vim-startify'
-    " Vista
-    Plug 'liuchengxu/vista.vim'
-    " See what keys do like in emacs
-    Plug 'liuchengxu/vim-which-key'
-    " Zen mode
-    Plug 'junegunn/goyo.vim'
-    " Making stuff
-    Plug 'neomake/neomake'
-    " Snippets TODO fix TAB hijack
-    " Plug 'SirVer/ultisnips'
-    " Better Comments
-    Plug 'jbgutierrez/vim-better-comments'
-    " TODO configure all plugins below
-    " Gramar corrector
-    Plug 'rhysd/vim-grammarous'
-    " Mercurial support
-    Plug 'ludovicchabant/vim-lawrencium'
-    " Jupyter editing
-    Plug 'goerz/jupytext.vim'
-    " Markdown preview
-    Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-    " Todo text
-    Plug 'freitass/todo.txt-vim'
-    " Testing
-    Plug 'janko-m/vim-test'
-    " Plug 'tpope/vim-dispatch'
-    Plug 'vifm/vifm.vim'
-  endif
+  Plug 'jbgutierrez/vim-better-comments'
+  " TODO configure all plugins below
+  " Gramar corrector
+  Plug 'rhysd/vim-grammarous'
+  " Mercurial support
+  Plug 'ludovicchabant/vim-lawrencium'
+  " Jupyter editing
+  Plug 'goerz/jupytext.vim'
+  " Markdown preview
+  Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+  " Todo text
+  Plug 'freitass/todo.txt-vim'
+  " Testing
+  Plug 'janko-m/vim-test'
+  " Plug 'tpope/vim-dispatch'
+  Plug 'vifm/vifm.vim'
+  " Pandoc integration
+  Plugin 'vim-pandoc/vim-pandoc'
+endif
 
 
 call plug#end()
