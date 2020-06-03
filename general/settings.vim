@@ -35,7 +35,8 @@ if !exists('g:vscode')
   set timeoutlen=300                      " By default timeoutlen is 1000 ms
   set clipboard=unnamedplus               " Copy paste between vim and everything else
   set incsearch
-  set guifont=Hack\ Nerd\ Font
+  " set guifont=Anonymous\ Pro
+  set guifont="Source Code Pro for Powerline"
   colorscheme codedark
   " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   " set mmp=1300

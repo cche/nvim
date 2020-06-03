@@ -1,0 +1,10 @@
+let g:pandoc#filetypes#handled = ['pandoc', 'rst','markdown']
+let g:pandoc#formatting#mode = "hA"
+let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
+let g:pandoc#folding#level = 0
+" let g:pandoc#folding#mode = "relative"
+let g:pandoc#after#modules#enabled = ["nrrwrgn", "tablemode"]
+" let g:pandoc#biblio#sources = ""
+let g:pandoc#biblio#bibs = '/Users/cristian/Zotero/pdfs/mybib/mybib.bib'
+let g:pandoc#completion#bib#mode = 'citeproc'
+let g:pandoc#syntax#colorcolumn = 1

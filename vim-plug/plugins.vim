@@ -100,7 +100,7 @@ else
   " Plug 'tpope/vim-dispatch'
   Plug 'vifm/vifm.vim'
   " Pandoc integration
-  Plugin 'vim-pandoc/vim-pandoc'
+  Plug 'vim-pandoc/vim-pandoc'
 endif
 
 
