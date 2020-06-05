@@ -9,11 +9,11 @@ endif
 call plug#begin('~/.config/nvim/autoload/plugged')
 
   " Change dates fast
-  Plug 'tpope/vim-speeddating'
+  " Plug 'tpope/vim-speeddating'
   " Convert binary, hex, etc..
-  Plug 'glts/vim-radical'
+  " Plug 'glts/vim-radical'
   " Files
-  Plug 'tpope/vim-eunuch'
+  " Plug 'tpope/vim-eunuch'
   " Repeat stuff
   Plug 'tpope/vim-repeat'
   " Surround
@@ -24,7 +24,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
   " Have the file system follow you around
   Plug 'airblade/vim-rooter'
   " auto set indent settings
-  Plug 'tpope/vim-sleuth'
+  " Plug 'tpope/vim-sleuth'
 
   if exists('g:vscode')
     " Easy motion for VSCode
@@ -36,7 +36,7 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'unblevable/quick-scope'
     " Plug 'easymotion/vim-easymotion'
     " Add some color
-    Plug 'norcalli/nvim-colorizer.lua'
+    " Plug 'norcalli/nvim-colorizer.lua'
     Plug 'junegunn/rainbow_parentheses.vim'
     " Better Syntax Support
     Plug 'sheerun/vim-polyglot'
