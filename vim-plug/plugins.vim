@@ -8,22 +8,23 @@ endif
 
 call plug#begin('~/.config/nvim/autoload/plugged')
 
-" Change dates fast
-" Plug 'tpope/vim-speeddating'
-" Convert binary, hex, etc..
-" Plug 'glts/vim-radical'
-" Files
-" Plug 'tpope/vim-eunuch'
-" Repeat stuff
-Plug 'tpope/vim-repeat'
-" Surround
-Plug 'tpope/vim-surround'
-" Better Comments
-Plug 'preservim/nerdcommenter'
-" Have the file system follow you around
-Plug 'airblade/vim-rooter'
-" auto set indent settings
-Plug 'tpope/vim-sleuth'
+  " Change dates fast
+  " Plug 'tpope/vim-speeddating'
+  " Convert binary, hex, etc..
+  " Plug 'glts/vim-radical'
+  " Files
+  " Plug 'tpope/vim-eunuch'
+  " Repeat stuff
+  Plug 'tpope/vim-repeat'
+  " Surround
+  Plug 'tpope/vim-surround'
+  " Better Comments
+  Plug 'tpope/vim-commentary'
+  " Plug 'preservim/nerdcommenter'
+  " Have the file system follow you around
+  Plug 'airblade/vim-rooter'
+  " auto set indent settings
+  " Plug 'tpope/vim-sleuth'
 
 if exists('g:vscode')
   " Easy motion for VSCode

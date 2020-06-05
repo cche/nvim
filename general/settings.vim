@@ -34,9 +34,10 @@ if !exists('g:vscode')
   set updatetime=300                      " Faster completion
   set timeoutlen=300                      " By default timeoutlen is 1000 ms
   set clipboard=unnamedplus               " Copy paste between vim and everything else
+  " set backspace=indent,eol,start
   set incsearch
-  " set guifont=Anonymous\ Pro
-  set guifont="Source Code Pro for Powerline"
+  " set guifont="Source Code Pro for Powerline"
+  set guifont=Hack\ Nerd\ Font
   colorscheme codedark
   " let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   " set mmp=1300

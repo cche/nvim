@@ -59,7 +59,8 @@ installcocextensions() { \
   cd ~/.config/coc/extensions
   [ ! -f package.json ] && echo '{"dependencies":{}}'> package.json
   # Change extension names to the extensions you need
-  sudo npm install coc-explorer coc-snippets coc-json --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  # sudo npm install coc-explorer coc-snippets coc-json coc-actions --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  sudo npm install coc-explorer coc-snippets coc-json coc-actions --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 }
 
 cloneconfig() { \
@@ -89,10 +90,12 @@ asktoinstallnode() { \
 }
 
 asktoinstallpip() { \
-  echo "pip not found"
-  echo -n "Would you like to install pip now (y/n)? "
-  read answer
-  [ "$answer" != "${answer#[Yy]}" ] && installpip
+  # echo "pip not found"
+  # echo -n "Would you like to install pip now (y/n)? "
+  # read answer
+  # [ "$answer" != "${answer#[Yy]}" ] && installpip
+  echo "Please install pip3 before continuing with install"
+  exit
 }
 
 installonmac() { \
@@ -107,12 +110,14 @@ installonubuntu() { \
   sudo apt install ripgrep fzf ranger  
   sudo apt install libjpeg8-dev zlib1g-dev python-dev python3-dev libxtst-dev
   pip3 install ueberzug
+  pip3 install neovim-remote
 }
 
 
 installonarch() { \
   sudo pacman -S install ripgrep fzf ranger
   which yay > /dev/null && yay -S python-ueberzug-git || pipinstallueberzug
+  pip3 install neovim-remote
 }
 
 installextrapackages() { \
@@ -141,12 +146,16 @@ pip3 list | grep pynvim > /dev/null && echo "pynvim installed, moving on..." || 
 # clone config down
 cloneconfig
 
-echo "Nvim Mach 2 is better with at least ripgrep, ueberzug and ranger"
-echo -n "Would you like to install these now?  (y/n)? "
-read answer
-[ "$answer" != "${answer#[Yy]}" ] && installextrapackages || echo "not installing extra packages"
+# echo "Nvim Mach 2 is better with at least ripgrep, ueberzug and ranger"
+# echo -n "Would you like to install these now?  (y/n)? "
+# read answer
+# [ "$answer" != "${answer#[Yy]}" ] && installextrapackages || echo "not installing extra packages"
 
 # install plugins
 which nvim > /dev/null && installplugins
 
+installcocextensions
+
 echo "I recommend you also install and activate a font from here: https://github.com/ryanoasis/nerd-fonts"
+
+echo "I also recommend you add 'set preview_images_method ueberzug' to ~/.config/ranger/rc.conf"
