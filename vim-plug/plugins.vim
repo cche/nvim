@@ -62,6 +62,7 @@ else
   " Terminal
   Plug 'voldikss/vim-floaterm'
   " Code scrathpad
+  " Plug 'kevinhwang91/rnvimr', {'do': 'make sync'}
   Plug 'metakirby5/codi.vim'
   " Start Screen
   Plug 'mhinz/vim-startify'

@@ -46,7 +46,7 @@ else
   inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
   " Spell: Accept first substitution
-  nmap <silent> ss z=1<CR>
+  nnoremap <silent> ss z=1<CR>
 
   " Better window navigation
   nnoremap <C-h> <C-w>h

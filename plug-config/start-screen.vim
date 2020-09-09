@@ -27,7 +27,7 @@ function! StartifyEntryFormat()
 let g:startify_bookmarks = [
             \ { 'i': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
-            \ { 'n': '~/Documents/notes' },
+            \ { 'n': '~/Documents/notes/' },
             \ '~/Documents/notes/todo.txt',
             \ '~/Documents/notes/QuickNote.md',
             \ '~/Dropbox/Apps/Simpletask/todo.txt',

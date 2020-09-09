@@ -4,7 +4,7 @@ set formatoptions-=cro                  " Stop newline continution of comments
 if !exists('g:vscode')
   syntax enable                           " Enables syntax highlighing
   set hidden                              " Required to keep multiple buffers open multiple buffers
-  set nowrap                              " Display long lines as just one line
+  "set nowrap                              " Display long lines as just one line
   set encoding=utf-8                      " The encoding displayed 
   set pumheight=10                        " Makes popup menu smaller
   set fileencoding=utf-8                  " The encoding written to file
@@ -34,7 +34,7 @@ if !exists('g:vscode')
   set updatetime=300                      " Faster completion
   set timeoutlen=300                      " By default timeoutlen is 1000 ms
   set clipboard=unnamedplus               " Copy paste between vim and everything else
-  " set backspace=indent,eol,start
+  set backspace=indent,eol,start
   set incsearch
   " set guifont="Source Code Pro for Powerline"
   set guifont=Hack\ Nerd\ Font
@@ -57,7 +57,6 @@ if !exists('g:vscode')
     endif
 
     " You can't stop me
-    cmap w!! w !sudo tee %
+    " cmap w!! w !sudo tee %
 endif
-
 
