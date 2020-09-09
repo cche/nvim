@@ -43,12 +43,10 @@ if !exists('g:vscode')
   " set autochdir                           " Your working directory will always be the same as your working directory
   " set foldcolumn=2                        " Folding abilities
 
-  " au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
-  autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+" au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
-
-  " You can't stop me
-  cmap w!! w !sudo tee %
-endif
+" You can't stop me
+cmap w!! w !sudo tee %
 
 

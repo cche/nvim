@@ -1,3 +1,4 @@
+" Basic Key Mappings
 
 imap <C-h> <C-w>h
 imap <C-j> <C-w>j
@@ -14,11 +15,12 @@ vnoremap > >gv
 
 if exists('g:vscode')
 
-" Simulate same TAB behavior in VSCode
-nmap <Tab> :Tabnext<CR>
-nmap <S-Tab> :Tabprev<CR>
+  " Simulate same TAB behavior in VSCode
+  nmap <Tab> :Tabnext<CR>
+  nmap <S-Tab> :Tabprev<CR>
 
 else
+
   " Better nav for omnicomplete
   inoremap <expr> <c-j> ("\<C-n>")
   inoremap <expr> <c-k> ("\<C-p>")
@@ -36,6 +38,12 @@ else
   " SHIFT-TAB will go back
   nnoremap <silent> <S-TAB> :bprevious<CR>
 
+  " Move selected line / block of text in visual mode
+  " shift + k to move up
+  " shift + j to move down
+  xnoremap K :move '<-2<CR>gv-gv
+  xnoremap J :move '>+1<CR>gv-gv
+
   " Alternate way to save
   nnoremap <silent> <C-s> :w<CR>
   " Alternate way to quit
@@ -44,7 +52,6 @@ else
   nnoremap <silent> <C-c> <Esc>
   " <TAB>: completion.
   inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
 
   " Better window navigation
   nnoremap <C-h> <C-w>h
@@ -68,5 +75,9 @@ else
   nnoremap <silent> <M-k>    :resize +2<CR>
   nnoremap <silent> <M-h>    :vertical resize -2<CR>
   nnoremap <silent> <M-l>    :vertical resize +2<CR>
+
 endif
 
+" Better nav for omnicomplete
+inoremap <expr> <c-j> ("\<C-n>")
+inoremap <expr> <c-k> ("\<C-p>")
