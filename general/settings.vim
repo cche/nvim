@@ -44,19 +44,15 @@ if !exists('g:vscode')
   " set autochdir                           " Your working directory will always be the same as your working directory
   " set foldcolumn=2                        " Folding abilities
 
-    " if (has('termguicolors'))
-    "     set termguicolors
-    " endif
+  au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 
-    au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
+  " persistent undo between file reloads
+  if has('persistent_undo')
+      set undofile
+      set undodir=~/.vim/tmp,.
+  endif
 
-    " persistent undo between file reloads
-    if has('persistent_undo')
-        set undofile
-        set undodir=~/.vim/tmp,.
-    endif
-
-    " You can't stop me
-    " cmap w!! w !sudo tee %
+  " You can't stop me
+  " cmap w!! w !sudo tee %
 endif
 

@@ -4,9 +4,7 @@ set -o nounset    # error when referencing undefined variable
 set -o errexit    # exit when command fails
 
 installnodemac() { \
-  brew install lua
   brew install node
-  brew install yarn
 }
 
 installnodeubuntu() { \
@@ -62,7 +60,7 @@ installcocextensions() { \
   [ ! -f package.json ] && echo '{"dependencies":{}}'> package.json
   # Change extension names to the extensions you need
   # sudo npm install coc-explorer coc-snippets coc-json coc-actions --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-  sudo npm install coc-explorer coc-snippets coc-json coc-actions --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+  npm install coc-explorer coc-snippets coc-json coc-actions --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 }
 
 cloneconfig() { \
@@ -73,11 +71,6 @@ cloneconfig() { \
 moveoldnvim() { \
   echo "Moving your config to nvim.old"
   mv $HOME/.config/nvim $HOME/.config/nvim.old
-}
-
-moveoldcoc() { \
-  echo "Moving your coc to coc.old"
-  mv $HOME/.config/coc $HOME/.config/coc.old
 }
 
 installplugins() { \
@@ -114,7 +107,7 @@ pipinstallueberzug() { \
 }
 
 installonubuntu() { \
-  sudo apt install ripgrep fzf ranger
+  sudo apt install ripgrep fzf ranger  
   sudo apt install libjpeg8-dev zlib1g-dev python-dev python3-dev libxtst-dev
   pip3 install ueberzug
   pip3 install neovim-remote
@@ -148,10 +141,7 @@ which node > /dev/null && echo "node installed, moving on..." || asktoinstallnod
 pip3 list | grep pynvim > /dev/null && echo "pynvim installed, moving on..." || installpynvim
 
 # move old nvim directory if it exists
-[ -d "$HOME/.config/nvim" ] && moveoldnvim
-
-# move old nvim directory if it exists
-[ -d "$HOME/.config/coc" ] && moveoldcoc
+[ -d "$HOME/.config/nvim" ] && moveoldnvim 
 
 # clone config down
 cloneconfig
