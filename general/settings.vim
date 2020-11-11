@@ -46,6 +46,7 @@ if !exists('g:vscode')
 
   au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 
+  let g:python3_host_prog="/usr/local/Caskroom/miniconda/base/bin/python3"
   " persistent undo between file reloads
   if has('persistent_undo')
       set undofile
