@@ -67,7 +67,4 @@ if !exists('g:vscode')
       set undofile
       set undodir=~/.vim/tmp,.
   endif
-
-  " You can't stop me
-  " cmap w!! w !sudo tee %
 endif

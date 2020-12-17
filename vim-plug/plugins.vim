@@ -108,13 +108,17 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'puremourning/vimspector'
     Plug 'szw/vim-maximizer'
     " Neovim in Browser
-    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+    "Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
     " Rainbow brackets
     Plug 'luochen1990/rainbow'
+    " Javascript
     Plug 'yuezk/vim-js'
     Plug 'maxmellon/vim-jsx-pretty'
     Plug 'jelera/vim-javascript-syntax'
 
+    Plug 'https://github.com/vimwiki/vimwiki.git'
+    Plug 'hardcoreplayers/spaceline.vim'
+    "
     " Code dark colour scheme
     Plug 'tomasiser/vim-code-dark'
     " Gramar corrector
@@ -123,82 +127,23 @@ call plug#begin('~/.config/nvim/autoload/plugged')
     Plug 'ludovicchabant/vim-lawrencium'
     " Jupyter editing
     Plug 'goerz/jupytext.vim'
-    " Markdown preview
-    " Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
     " Todo text
     Plug 'freitass/todo.txt-vim'
     " Testing
     Plug 'janko-m/vim-test'
     " Plug 'tpope/vim-dispatch'
     Plug 'vifm/vifm.vim'
-    " Pandoc integration
-    " Plug 'vim-pandoc/vim-pandoc'
-    " Debugging
-    Plug 'puremourning/vimspector'
     
     " Plugin Graveyard
 
-    " Closetags
-    "Plug 'alvan/vim-closetag'
-    " Themes
-    " Plug 'christianchiarulli/nvcode.vim'
-    " Find and replace
-    " Plug 'ChristianChiarulli/far.vim'
-    " Plug 'brooth/far.vim'
-    " Plug 'luochen1990/rainbow'
-    " Async Linting Engine
-    " TODO make sure to add ale config before plugin
-    " Plug 'dense-analysis/ale'
-    " Better Whitespace
-    " Plug 'ntpeters/vim-better-whitespace'
-    " Multiple Cursors
-    " TODO add this back in change from C-n
-    " Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-    " Plug 'yuezk/vim-js'
-    " Plug 'maxmellon/vim-jsx-pretty'
-    " Plug 'jelera/vim-javascript-syntax'
-    " Plugin Graveyard
-
-    " Debug
-    " Plug 'mfussenegger/nvim-dap'
-    " Plug 'nvim-dap-virtual-text'
-    " Sneak
-    " Plug 'justinmk/vim-sneak'
+    " Pandoc integration
+    " Plug 'vim-pandoc/vim-pandoc'
     " Plug 'nvim-treesitter/nvim-treesitter-refactor'
     " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
     " Plug 'romgrk/nvim-treesitter-context'
-    " Minimap
-    " Plug 'wfxr/minimap.vim'
-    " jsx syntax support
-    " Typescript syntax
-    " Plug 'HerringtonDarkholme/yats.vim'
-    " Multiple Cursors
-    " Plug 'terryma/vim-multiple-cursors'
-    " Plug 'kaicataldo/material.vim'
-    " Plug 'tomasiser/vim-code-dark'
-    " Plug 'mg979/vim-xtabline'
-    " Files
-    " Plug 'tpope/vim-eunuch'
     " Vim Wiki
-    " Plug 'https://github.com/vimwiki/vimwiki.git'
-    " Better Comments
-    " Plug 'jbgutierrez/vim-better-comments'
-    " Echo doc
-    " Plug 'Shougo/echodoc.vim'
-    " Plug 'hardcoreplayers/spaceline.vim'
     " Plug 'vim-airline/vim-airline'
     " Plug 'vim-airline/vim-airline-themes'
-    " Ranger
-    " Plug 'francoiscabrol/ranger.vim'
-    " Making stuff
-    " Plug 'neomake/neomake'
-    " Plug 'mhinz/vim-signify'
-    " Plug 'preservim/nerdcommenter'
-    " Plug 'brooth/far.vim'
-    " Plug 'atishay/far.vim'
-    " Plug 'romgrk/lib.kom'
-    " Plug 'brooth/far.vim'
-    " Debugging
   endif
 
 call plug#end()
