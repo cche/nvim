@@ -1,6 +1,5 @@
 
 " let g:startify_custom_header = []
-
 let g:startify_session_dir = '~/.config/nvim/session'
 
 
@@ -27,10 +26,9 @@ function! StartifyEntryFormat()
 let g:startify_bookmarks = [
             \ { 'i': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
-            \ { 'n': '~/Documents/notes/' },
-            \ '~/Documents/notes/todo.txt',
-            \ '~/Documents/notes/QuickNote.md',
-            \ '~/Dropbox/Apps/Simpletask/todo.txt',
+            \ { 't': '~/Dropbox/Apps/Simpletask/todo.txt'},
+            \ { 'n': '~/Documents/notes/QuickNote.md'},
+            \ { 's': '~/Documents/notes/todo.txt'},
             \ ]
 
 let g:startify_enable_special = 0
