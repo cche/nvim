@@ -28,15 +28,15 @@ return require("packer").startup(function(use)
 --    -- Complement python LSP
 --    use("jose-elias-alvarez/null-ls.nvim")
 --
---    -- Telescope
---    use({
---        "nvim-telescope/telescope.nvim",
---        requires = { { "nvim-lua/plenary.nvim" } },
---    })
---    use({ "nvim-telescope/telescope-fzy-native.nvim" })
---    use("cljoly/telescope-repo.nvim")
---    use("zane-/howdoi.nvim")
---
+   -- Telescope
+   use({
+       "nvim-telescope/telescope.nvim",
+       requires = { { "nvim-lua/plenary.nvim" } },
+   })
+   use({ "nvim-telescope/telescope-fzy-native.nvim" })
+   use("cljoly/telescope-repo.nvim")
+   use("zane-/howdoi.nvim")
+
 --    -- Debugging
 --    use({ "mfussenegger/nvim-dap" })
 --    use({ "nvim-telescope/telescope-dap.nvim" })
