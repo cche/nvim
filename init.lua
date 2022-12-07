@@ -160,7 +160,7 @@ require("keymappings")
 require("nvimtree")
 require("nvim_comment").setup()
 require("lua-line")
--- require("plugconf.nvim-cmp")
+require("lsp.nvim-cmp")
 require("barbar")
 require("telescope-conf")
 require("git-signs")
@@ -168,12 +168,12 @@ require("treesitter")
 -- require("plugconf.floaterm")
 -- require("plugconf.watson")
 -- require("dbg")
--- 
--- require("plugconf.which-key")
--- 
+--
+require("which-key")
+--
 -- -- LSP
--- require("lsp")
--- 
+require("lsp")
+--
 -- vim.cmd("source ~/.config/nvim/vimscript/startify.vim")
 -- vim.cmd("source ~/.config/nvim/vimscript/todo-txt.vim")
 -- vim.cmd("source ~/.config/nvim/vimscript/pytest.vim")
