@@ -165,11 +165,13 @@ require("barbar")
 require("telescope-conf")
 require("git-signs")
 require("treesitter")
+require("todotxt")
+require("obsidian-nvim")
 -- require("plugconf.floaterm")
 -- require("plugconf.watson")
 -- require("dbg")
 --
-require("which-key")
+require("whichkey")
 --
 -- -- LSP
 require("lsp")
