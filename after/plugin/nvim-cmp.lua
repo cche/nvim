@@ -38,29 +38,29 @@ cmp.setup {
   sources =cmp.config.sources({
     {
       name = 'nvim_lsp',
-      entry_filter = function(entry,context)
-        local kind = entry:get_kind()
-
-        local line = context.cursor_line
-        local col = context.cursor.col
-        local char_before_cursor = string.sub(line, col - 1, col - 1)
-        -- log(char_before_cursor)
-        if char_before_cursor == "." then
-          if kind == 2 or kind == 5 then
-            return true
-          else
-            return false
-          end
-        elseif string.match(line, "^%s*%w*$") then
-          if kind == 3 or kind == 6 then
-            return true
-          else
-            return false
-          end
-        end
-
-        return true
-      end,
+      -- entry_filter = function(entry,context)
+      --   local kind = entry:get_kind()
+      --
+      --   local line = context.cursor_line
+      --   local col = context.cursor.col
+      --   local char_before_cursor = string.sub(line, col - 1, col - 1)
+      --   -- log(char_before_cursor)
+      --   if char_before_cursor == "." then
+      --     if kind == 2 or kind == 5 then
+      --       return true
+      --     else
+      --       return false
+      --     end
+      --   elseif string.match(line, "^%s*%w*$") then
+      --     if kind == 3 or kind == 6 then
+      --       return true
+      --     else
+      --       return false
+      --     end
+      --   end
+      --
+        -- return true
+    --   end,
     },
     { name = 'luasnip' },
   }),
