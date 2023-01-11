@@ -1,4 +1,64 @@
-return function(use)
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | silent! LspStop | silent! LspStart | PackerSync',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})
+
+return require('packer').startup(function(use)
+  -- Package manager
+  use 'wbthomason/packer.nvim'
+
+  use { -- LSP Configuration & Plugins
+    'neovim/nvim-lspconfig',
+    requires = {
+      -- Automatically install LSPs to stdpath for neovim
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+
+      -- Useful status updates for LSP
+      'j-hui/fidget.nvim',
+
+      -- Additional lua configuration, makes nvim stuff amazing
+      'folke/neodev.nvim',
+    },
+  }
+
+  use { -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+  }
+
+  use { -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  }
+
+  use { -- Additional text objects via treesitter
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+  }
+
+  -- Git related plugins
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-rhubarb'
+  use 'lewis6991/gitsigns.nvim'
+
+  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
+  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+
+  -- Fuzzy Finder (files, lsp, etc)
+  use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
+
+  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make', cond = vim.fn.executable 'make' == 1 }
+
   use({
     "folke/which-key.nvim",
     config = function()
@@ -13,145 +73,7 @@ return function(use)
     requires = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
     },
-    tag = "nightly", -- optional, updated every week. (see issue #1193)
-    config = function ()
-      require 'nvim-tree'.setup {
-        auto_reload_on_write = true,
-        disable_netrw = false,
-        -- hide_root_folder = false,
-        hijack_cursor = false,
-        hijack_netrw = true,
-        hijack_unnamed_buffer_when_opening = false,
-        ignore_buffer_on_setup = false,
-        open_on_setup = false,
-        open_on_tab = false,
-        sort_by = "name",
-        update_cwd = false,
-        respect_buf_cwd = true,
-        create_in_closed_folder = false,
-        view = {
-          width = 30,
-          side = "left",
-          preserve_window_proportions = false,
-          number = false,
-          relativenumber = false,
-          signcolumn = "yes",
-          mappings = {
-            custom_only = false,
-            list = {
-              -- user mappings go here
-            },
-          },
-        },
-        hijack_directories = {
-          enable = true,
-          auto_open = true,
-        },
-        update_focused_file = {
-          enable = false,
-          update_cwd = false,
-          ignore_list = {},
-        },
-        ignore_ft_on_setup = {},
-        system_open = {
-          cmd = nil,
-          args = {},
-        },
-        diagnostics = {
-          enable = false,
-          show_on_dirs = false,
-          icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-          },
-        },
-        filters = {
-          dotfiles = false,
-          custom = {},
-          exclude = {},
-        },
-        git = {
-          enable = true,
-          ignore = true,
-          timeout = 400,
-        },
-        actions = {
-          change_dir = {
-            enable = true,
-            global = false,
-          },
-          open_file = {
-            quit_on_open = true,
-            resize_window = false,
-            window_picker = {
-              enable = true,
-              chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-              exclude = {
-                filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-                buftype = { "nofile", "terminal", "help" },
-              },
-            },
-          },
-        },
-        renderer = {
-          indent_markers = {
-            enable = true,
-          },
-          highlight_git = true,
-          highlight_opened_files = "icon",
-          root_folder_modifier = ':~',
-          add_trailing = true,
-          group_empty = true,
-          icons = {
-            padding = ' ',
-            symlink_arrow = ' >> ',
-            show = { git = true, folder = true, file = true, folder_arrow = true },
-            glyphs = {
-              default = "",
-              symlink = "",
-              git = {
-                unstaged = "",
-                staged = "✓",
-                unmerged = "",
-                renamed = "➜",
-                untracked = "★",
-                deleted = "",
-                ignored = "◌"
-              },
-              folder = {
-                arrow_open = "",
-                arrow_closed = "",
-                default = "",
-                open = "",
-                empty = "",
-                empty_open = "",
-                symlink = "",
-                symlink_open = "",
-              }
-            },
-          },
-          special_files = { "README.md", "Makefile", "MAKEFILE" }
-
-        },
-        trash = {
-          cmd = "trash",
-          require_confirm = true,
-        },
-        log = {
-          enable = false,
-          truncate = false,
-          types = {
-            all = false,
-            config = false,
-            copy_paste = false,
-            git = false,
-            profile = false,
-          },
-        },
-      }
-    end
+    tag = "nightly" -- optional, updated every week. (see issue #1193)
   })
 
   use({
@@ -160,7 +82,7 @@ return function(use)
       require("obsidian").setup({
         dir = "~/Documents/notes/",
         completion = {
-          nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+          nvim_cmp = true,
         },
         note_id_func = function(title)
           -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
@@ -180,7 +102,7 @@ return function(use)
           local out = { id = note.id, aliases = note.aliases, tags = note.tags }
           -- `note.metadata` contains any manually added fields in the frontmatter.
           -- So here we just make sure those fields are kept in the frontmatter.
-          if note.metadata ~= nil and util.table_length(note.metadata) > 0 then
+          if note.metadata ~= nil and require("obsidian").util.table_length(note.metadata) > 0 then
             for k, v in pairs(note.metadata) do
               out[k] = v
             end
@@ -196,13 +118,6 @@ return function(use)
 
   -- Nextflow DSL2 syntax files
   use({ "Mxrcon/nextflow-vim", opt = true, ft = { "nextflow" } })
-
-  --    -- Interface for cht.sh
-  --    --
-  --    use({ "RishabhRD/popfix" })
-  --    use({ "RishabhRD/nvim-cheat.sh" })
-  --    -- use {'dbeniamine/cheat.sh-vim'}
-  --
 
   --    -- TODO.TXT
   use({
@@ -294,4 +209,6 @@ return function(use)
       }
     end
   })
-end
+
+  use("folke/zen-mode.nvim")
+end)
