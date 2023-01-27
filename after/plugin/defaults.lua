@@ -68,3 +68,10 @@ vim.o.noswapfile = true
 if vim.fn.isdirectory(vim.o.directory) == 0 then
     vim.fn.mkdir(vim.o.directory, "p")
 end
+
+vim.g.markdown_fenced_languages = { 'html', 'python', 'bash=sh', 'R=r' }
+
+-- slime, general
+vim.b.slime_cell_delimiter = "#%%"
+vim.g.slime_target = "neovim"
+-- vim.g.slime_python_ipython = 1

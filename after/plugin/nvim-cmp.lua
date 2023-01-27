@@ -62,7 +62,11 @@ cmp.setup {
         return true
       end,
     },
+    { name = 'otter' },
     { name = 'luasnip' },
+    { name = 'path' },
+    { name = 'pandoc_references' },
+    { name = 'calc' },
   }),
 }
 

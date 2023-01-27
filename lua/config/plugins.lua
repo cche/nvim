@@ -27,7 +27,8 @@ return require('packer').startup(function(use)
 
   use { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip', 'hrsh7th/cmp-path',
+      'hrsh7th/cmp-calc', 'hrsh7th/cmp-emoji', 'jmbuhr/cmp-pandoc-references' },
   }
   use("rafamadriz/friendly-snippets")
 
@@ -54,6 +55,36 @@ return require('packer').startup(function(use)
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
 
+  -- Codeium coding aid
+  use {
+    'Exafunction/codeium.vim',
+    config = function()
+      -- Change '<C-g>' here to any keycode you like.
+      vim.keymap.set('i', '<C-g>', function()
+        return vim.fn['codeium#Accept']()
+      end, { expr = true })
+    end
+  }
+  use 'Exafunction/codeium.vim'
+
+  -- ChatGPT plugin Experimental
+  -- use({
+  --   "jackMort/ChatGPT.nvim",
+  --   config = function()
+  --     require("chatgpt").setup({
+  --       -- optional configuration
+  --     })
+  --   end,
+  --   requires = {
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope.nvim"
+  --   }
+  -- })
+
+  -- -- howdoi plugin
+  -- use("zane-/howdoi.nvim")
+
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
 
@@ -67,8 +98,6 @@ return require('packer').startup(function(use)
     end
   })
 
-  use("zane-/howdoi.nvim")
-
   use({
     "nvim-tree/nvim-tree.lua",
     requires = {
@@ -77,9 +106,35 @@ return require('packer').startup(function(use)
     tag = "nightly" -- optional, updated every week. (see issue #1193)
   })
 
+  -- Knowledge base plugin
   use("epwalsh/obsidian.nvim")
+
+  use { 'quarto-dev/quarto-nvim',
+    requires = {
+      'jmbuhr/otter.nvim',
+      'neovim/nvim-lspconfig'
+    },
+    config = function()
+      require 'quarto'.setup {
+        lspFeatures = {
+          enabled = true,
+          languages = { 'r', 'python', 'julia' },
+          diagnostics = {
+            enabled = true,
+            triggers = { "BufWrite" }
+          },
+          completion = {
+            enabled = true
+          }
+        }
+      }
+    end
+  }
+  use 'jpalardy/vim-slime'
+  use 'ekickx/clipboard-image.nvim'
+
   -- Snakemake files
-  use({ "snakemake/snakemake", opt = true, ft = { "snakemake" } })
+  use({ "snakemake/snakemake", opt = true, ft = { "snakemake" }, rtp = 'misc/vim' })
   use({ "snakemake/snakefmt", opt = true, ft = { "snakemake" } })
 
   -- Nextflow DSL2 syntax files
