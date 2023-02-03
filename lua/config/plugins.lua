@@ -68,19 +68,19 @@ return require('packer').startup(function(use)
   use 'Exafunction/codeium.vim'
 
   -- ChatGPT plugin Experimental
-  -- use({
-  --   "jackMort/ChatGPT.nvim",
-  --   config = function()
-  --     require("chatgpt").setup({
-  --       -- optional configuration
-  --     })
-  --   end,
-  --   requires = {
-  --     "MunifTanjim/nui.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope.nvim"
-  --   }
-  -- })
+  use({
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup({
+        -- optional configuration
+      })
+    end,
+    requires = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim"
+    }
+  })
 
   -- -- howdoi plugin
   -- use("zane-/howdoi.nvim")
