@@ -115,8 +115,8 @@ vim.keymap.set('n', '<leader>cn', "<cmd>split term://$SHELL<cr>", {desc = 'New t
 vim.keymap.set('n', '<leader>cr', "<cmd>split term://R<cr>", {desc = 'New R terminal'})
 vim.keymap.set('n', '<leader>cp', "<cmd>split term://python<cr>", {desc = 'New Python terminal'})
 vim.keymap.set('n', '<leader>ci', "<cmd>split term://ipython<cr>", {desc = 'New Ipython terminal'})
-vim.keymap.set('n', '<leader>cn', "<cmd>split term://julia<cr>", {desc = 'New Julia terminal'})
-vim.keymap.set('n', '<leader>cn', "<cmd>echo b:terminal_job_id<cr>", {desc = 'Show terminal id'})
+vim.keymap.set('n', '<leader>cj', "<cmd>split term://julia<cr>", {desc = 'New Julia terminal'})
+vim.keymap.set('n', '<leader>cb', "<cmd>echo b:terminal_job_id<cr>", {desc = 'Show terminal id'})
 -- Slime keymaps
 vim.keymap.set('n', '<leader><cr>', '<Plug>SlimeSendCell', {desc = 'Send Cell to terminal'})
 vim.keymap.set('x', '<s-cr>', '<Plug>SlimeRegionSend', {desc = 'Send Cell to terminal'})
