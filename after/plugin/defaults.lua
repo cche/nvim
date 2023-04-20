@@ -14,6 +14,9 @@ vim.o.showbreak = "↪"
 vim.wo.wrap = true
 vim.o.breakindent = true
 
+-- Do not fold
+vim.o.foldenable = false
+
 -- Save undo history
 vim.o.undofile = true
 vim.o.undodir = vim.fn.expand("~/.config/nvim/tmp/undo//")

@@ -58,7 +58,7 @@ local servers = {
   r_language_server = {},
   yamlls = {},
 
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },

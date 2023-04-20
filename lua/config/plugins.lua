@@ -49,23 +49,26 @@ return require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
 
-  use 'navarasu/onedark.nvim' -- Theme inspired by Atom
-  use 'nvim-lualine/lualine.nvim' -- Fancier statusline
+  use 'navarasu/onedark.nvim'               -- Theme inspired by Atom
+  use 'nvim-lualine/lualine.nvim'           -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
-  use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
-  use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
+  use 'numToStr/Comment.nvim'               -- "gc" to comment visual regions/lines
+  use 'tpope/vim-sleuth'                    -- Detect tabstop and shiftwidth automatically
 
   -- Codeium coding aid
   use {
     'Exafunction/codeium.vim',
     config = function()
+      vim.g.codeium_theme = 'one-dark'
+      vim.g.codeium_theme_dark = true
+      vim.g.codeium_no_map_tab = true
       -- Change '<C-g>' here to any keycode you like.
-      vim.keymap.set('i', '<C-g>', function()
-        return vim.fn['codeium#Accept']()
-      end, { expr = true })
+      vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+      vim.keymap.set('i', '<C-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+      vim.keymap.set('i', '<C-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+      vim.keymap.set('i', '<C-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
     end
   }
-  use 'Exafunction/codeium.vim'
 
   -- ChatGPT plugin Experimental
   use({
@@ -103,7 +106,7 @@ return require('packer').startup(function(use)
     requires = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
     },
-    tag = "nightly" -- optional, updated every week. (see issue #1193)
+    tag = "nightly"                  -- optional, updated every week. (see issue #1193)
   })
 
   -- Knowledge base plugin
@@ -135,7 +138,7 @@ return require('packer').startup(function(use)
 
   -- Snakemake files
   use({ "snakemake/snakemake", opt = true, ft = { "snakemake" }, rtp = 'misc/vim' })
-  use({ "snakemake/snakefmt", opt = true, ft = { "snakemake" } })
+  -- use({ "snakemake/snakefmt", opt = true, ft = { "snakemake" } })
 
   -- Nextflow DSL2 syntax files
   use({ "Mxrcon/nextflow-vim", opt = true, ft = { "nextflow" } })
