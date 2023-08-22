@@ -1,12 +1,4 @@
--- Set highlight on search
-vim.o.hlsearch = false
-
--- Make line numbers default
-vim.wo.number = true
 vim.o.relativenumber = true
-
--- Enable mouse mode
-vim.o.mouse = 'a'
 
 -- Enable break indent and wrap
 vim.o.linebreak = true
@@ -65,7 +57,7 @@ end
 
 -- Store swap files in config dir.
 vim.o.directory = vim.fn.expand("~/.config/nvim/tmp/swap//")
-vim.o.noswapfile = true
+vim.o.swapfile = false
 
 -- Make the swap directory automatically if it doesn't already exist.
 if vim.fn.isdirectory(vim.o.directory) == 0 then
