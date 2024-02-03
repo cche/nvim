@@ -21,3 +21,9 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     command = ":Snakefmt",
     group = snakemake,
 })
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  callback = function()
+    require("lint").try_lint()
+  end,
+})

@@ -41,8 +41,8 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources =cmp.config.sources({
-    { name = 'nvim_lsp' },
     { name = 'codeium' },
+    { name = 'nvim_lsp' },
     { name = 'otter' },
     { name = 'luasnip',  keyword_length = 3, max_item_count = 3 },
     { name = 'path' },
