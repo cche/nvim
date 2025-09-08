@@ -112,6 +112,15 @@ vim.o.showmode = false
 
 vim.opt.foldenable = false
 
+-- Global floating window border (Neovim 0.11+)
+-- See :help 'winborder'
+if vim.fn.has("nvim-0.11") == 1 then
+	vim.o.winborder = "rounded"
+end
+
+-- Horizontal scroll behavior for long lines (impacts floats when wrap=false)
+vim.o.sidescroll = 1
+
 -- Set tab to 4 spaces
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -674,12 +683,23 @@ require("lazy").setup({
 			})
 
 			-- To instead override globally
-			-- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-			-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-			--   opts = opts or {}
-			--   opts.border = opts.border or 'rounded'
-			--   return orig_util_open_floating_preview(contents, syntax, opts, ...)
-			-- end
+			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+				opts = opts or {}
+				opts.border = opts.border or "rounded"
+				-- Make the float wider by default to better fit markdown tables
+				opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.9)
+				opts.max_height = opts.max_height or math.floor(vim.o.lines * 0.8)
+				local bufnr, winnr = orig_util_open_floating_preview(contents, syntax, opts, ...)
+				if winnr and vim.api.nvim_win_is_valid(winnr) then
+					-- Avoid wrapping so wide tables don't get broken into multiple lines
+					vim.wo[winnr].wrap = false
+					vim.wo[winnr].linebreak = false
+					vim.wo[winnr].breakindent = false
+					-- Allow horizontal scrolling with zh/zl (no special setup needed)
+				end
+				return bufnr, winnr
+			end
 
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
@@ -971,7 +991,14 @@ require("lazy").setup({
 			completion = {
 				-- By default, you may press `<c-space>` to show the documentation.
 				-- Optionally, set `auto_show = true` to show the documentation after a delay.
-				documentation = { auto_show = false, auto_show_delay_ms = 500 },
+				documentation = {
+					auto_show = false,
+					auto_show_delay_ms = 500,
+					window = { border = "rounded" },
+				},
+				menu = {
+					border = "rounded",
+				},
 			},
 
 			sources = {
