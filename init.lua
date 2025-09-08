@@ -755,6 +755,19 @@ require("lazy").setup({
 
 				ruff = {},
 
+				harper_ls = {
+					filetypes = { "markdown", "mail", "text" },
+					settings = {
+						["harper-ls"] = {
+							userDictPath = "~/.config/nvim/spell/en.utf-8.add",
+							isolateEnglish = true,
+							markdown = {
+								IgnoreLinkTitle = true,
+							},
+						},
+					},
+				},
+
 				r_language_server = {
 					opts = {
 						-- on_attach = on_attach,
