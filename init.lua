@@ -301,11 +301,6 @@ require("lazy").setup({
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
 				callback = function(event)
-					-- NOTE: Remember that Lua is a real programming language, and as such it is possible
-					-- to define small helper and utility functions so you don't have to repeat yourself.
-					--
-					-- In this case, we create a function that lets us more easily define mappings specific
-					-- for LSP related items. It sets the mode, buffer and description for us each time.
 					local map = function(keys, func, desc, mode)
 						mode = mode or "n"
 						vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
@@ -317,23 +312,21 @@ require("lazy").setup({
 
 					-- Execute a code action, usually your cursor needs to be on top of an error
 					-- or a suggestion from your LSP for this to activate.
-					map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
+					map("gra", vim.lsp.buf.code_action, "Goto Code Action", { "n", "x" })
 
 					-- Find references for the word under your cursor.
-					map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+					map("grr", require("telescope.builtin").lsp_references, "Goto References")
 
 					-- Jump to the implementation of the word under your cursor.
 					--  Useful when your language has ways of declaring types without an actual implementation.
-					map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+					map("gri", require("telescope.builtin").lsp_implementations, "Goto Implementation")
 
 					-- Jump to the definition of the word under your cursor.
 					--  This is where a variable was first declared, or where a function is defined, etc.
 					--  To jump back, press <C-t>.
-					map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+					map("grd", require("telescope.builtin").lsp_definitions, "Goto Definition")
 
-					-- WARN: This is not Goto Definition, this is Goto Declaration.
-					--  For example, in C this would take you to the header.
-					map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+					map("grD", vim.lsp.buf.declaration, "Goto Declaration")
 
 					-- Fuzzy find all the symbols in your current document.
 					--  Symbols are things like variables, functions, types, etc.
@@ -346,7 +339,7 @@ require("lazy").setup({
 					-- Jump to the type of the word under your cursor.
 					--  Useful when you're not sure what type a variable is and you want to see
 					--  the definition of its *type*, not where it was *defined*.
-					map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
+					map("grt", require("telescope.builtin").lsp_type_definitions, "Goto Type Definition")
 
 					-- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
 					---@param client vim.lsp.Client
@@ -362,8 +355,7 @@ require("lazy").setup({
 					end
 
 					-- highlight references of word under your cursor when your cursor rests
-					-- there for a little while. When you move your cursor, the highlights
-					-- will be cleared (the second autocommand).
+					-- there for a little while.
 					--    See `:help CursorHold` for information about when this is executed
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
 					if
@@ -409,25 +401,6 @@ require("lazy").setup({
 				end,
 			})
 
-			-- To instead override globally
-			-- local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-			-- function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-			-- 	opts = opts or {}
-			-- 	opts.border = opts.border or "rounded"
-			-- 	-- Make the float wider by default to better fit markdown tables
-			-- 	opts.max_width = opts.max_width or math.floor(vim.o.columns * 0.9)
-			-- 	opts.max_height = opts.max_height or math.floor(vim.o.lines * 0.8)
-			-- 	local bufnr, winnr = orig_util_open_floating_preview(contents, syntax, opts, ...)
-			-- 	if winnr and vim.api.nvim_win_is_valid(winnr) then
-			-- 		-- Avoid wrapping so wide tables don't get broken into multiple lines
-			-- 		vim.wo[winnr].wrap = false
-			-- 		vim.wo[winnr].linebreak = false
-			-- 		vim.wo[winnr].breakindent = false
-			-- 		-- Allow horizontal scrolling with zh/zl (no special setup needed)
-			-- 	end
-			-- 	return bufnr, winnr
-			-- end
-
 			-- Diagnostic Config
 			-- See :help vim.diagnostic.Opts
 			vim.diagnostic.config({
@@ -462,16 +435,11 @@ require("lazy").setup({
 			--  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
 			--  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-			-- Enable the following language servers
-			--  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-			--
 			--  Add any additional override configuration in the following tables. Available keys are:
 			--  - cmd (table): Override the default command used to start the server
 			--  - filetypes (table): Override the default list of associated filetypes for the server
 			--  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
 			--  - settings (table): Override the default settings passed when initializing the server.
-			-- For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
 			local servers = {
 				-- clangd = {},
@@ -490,15 +458,6 @@ require("lazy").setup({
 						end,
 					},
 				},
-				-- rust_analyzer = {},
-				-- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-				--
-				-- Some languages (like typescript) have entire language plugins that can be useful:
-				--    https://github.com/pmizio/typescript-tools.nvim
-				--
-				-- But for many setups, the LSP (`ts_ls`) will work just fine
-				-- ts_ls = {},
-				--
 
 				ruff = {},
 
@@ -566,9 +525,6 @@ require("lazy").setup({
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
-						-- This handles overriding only values explicitly passed
-						-- by the server configuration above. Useful when disabling
-						-- certain features of an LSP (for example, turning off formatting for ts_ls)
 						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 						require("lspconfig")[server_name].setup(server)
 					end,
@@ -701,10 +657,10 @@ require("lazy").setup({
 				documentation = {
 					auto_show = false,
 					auto_show_delay_ms = 500,
-					window = { border = "rounded" },
+					-- window = { border = "rounded" },
 				},
 				menu = {
-					border = "rounded",
+					-- border = "rounded",
 				},
 			},
 
@@ -737,10 +693,6 @@ require("lazy").setup({
 			},
 
 			snippets = { preset = "luasnip" },
-
-			-- Blink.cmp includes an optional, recommended rust fuzzy matcher,
-			-- which automatically downloads a prebuilt binary when enabled.
-			--
 			-- By default, we use the Lua implementation instead, but you may enable
 			-- the rust implementation via `'prefer_rust_with_warning'`
 			--
@@ -794,15 +746,8 @@ require("lazy").setup({
 			require("mini.ai").setup({ n_lines = 500 })
 
 			-- Add/delete/replace surroundings (brackets, quotes, etc.)
-			--
-			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-			-- - sd'   - [S]urround [D]elete [']quotes
-			-- - sr)'  - [S]urround [R]eplace [)] [']
 			require("mini.surround").setup()
 
-			-- Simple and easy statusline.
-			--  You could remove this setup call if you don't like it,
-			--  and try some other statusline plugin
 			local statusline = require("mini.statusline")
 			-- set use_icons to true if you have a Nerd Font
 			statusline.setup({
@@ -810,16 +755,10 @@ require("lazy").setup({
 				version = "*",
 			})
 
-			-- You can configure sections in the statusline by overriding their
-			-- default behavior. For example, here we set the section for
-			-- cursor location to LINE:COLUMN
 			---@diagnostic disable-next-line: duplicate-set-field
 			statusline.section_location = function()
 				return "%2l:%-2v"
 			end
-
-			-- ... and there is more!
-			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
 	{ -- Highlight, edit, and navigate code
@@ -856,23 +795,11 @@ require("lazy").setup({
 			},
 			indent = { enable = true, disable = { "ruby" } },
 		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+		-- - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+		-- - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+		-- - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 	},
 
-	-- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
-	-- init.lua. If you want these files, they are in the repository, so you can just download them and
-	-- place them in the correct locations.
-
-	-- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
-	--
-	--  Here are some example plugins that I've included in the Kickstart repository.
-	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
-	--
 	-- require 'kickstart.plugins.debug',
 	-- require 'kickstart.plugins.indent_line',
 	-- require 'kickstart.plugins.lint',
@@ -880,11 +807,6 @@ require("lazy").setup({
 	-- require 'kickstart.plugins.neo-tree',
 	require("kickstart.plugins.gitsigns"), -- adds gitsigns recommend keymaps
 
-	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-	--    This is the easiest way to modularize your config.
-	--
-	--  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-	--    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
 	{ import = "plugins" },
 	---@diagnostic disable-next-line: missing-fields
 }, {
