@@ -34,10 +34,10 @@ end
 vim.o.sidescroll = 1
 
 -- Set tab to 4 spaces
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+-- vim.opt.tabstop = 4
+-- vim.opt.softtabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.expandtab = true
 
 -- Sync clipboard between OS and Neovim.
 --  See `:help 'clipboard'`
@@ -92,10 +92,14 @@ vim.o.confirm = true
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- Sets how neovim will display certain whitespace in the editor.
---  See :help 'list' and :help 'listchars'
-vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+-- [[ Spell settings ]]
+--  See `:help spell`
+vim.opt.spelllang = { "en", "fr", "es" }
+vim.opt.spellfile = {
+	vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+	vim.fn.stdpath("config") .. "/spell/fr.utf-8.add",
+	vim.fn.stdpath("config") .. "/spell/es.utf-8.add",
+}
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -105,8 +109,8 @@ vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show diagnostic Error messages" })
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Open diagnostic Quickfix list" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -308,7 +312,7 @@ require("lazy").setup({
 
 					-- Rename the variable under your cursor.
 					--  Most Language Servers support renaming across files, etc.
-					map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
+					map("grn", vim.lsp.buf.rename, "Rename")
 
 					-- Execute a code action, usually your cursor needs to be on top of an error
 					-- or a suggestion from your LSP for this to activate.
@@ -461,18 +465,24 @@ require("lazy").setup({
 
 				ruff = {},
 
-				harper_ls = {
-					filetypes = { "markdown", "mail", "text" },
-					settings = {
-						["harper-ls"] = {
-							userDictPath = "~/.config/nvim/spell/en.utf-8.add",
-							isolateEnglish = true,
-							markdown = {
-								IgnoreLinkTitle = true,
-							},
-						},
-					},
-				},
+				-- harper_ls = {
+				-- 	opts = {
+				-- 		root_dir = function(fname)
+				-- 			return require("lspconfig.util").root_pattern(".git")(fname) or vim.fs.dirname(fname)
+				-- 		end,
+				-- 	},
+				-- 	-- filetypes = { "mail", "text" },
+				-- 	settings = {
+				-- 		["harper-ls"] = {
+				-- 			userDictPath = "~/.config/nvim/spell/en.utf-8.add",
+				-- 			isolateEnglish = true,
+				-- 			dialect = "British",
+				-- 			markdown = {
+				-- 				IgnoreLinkTitle = true,
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
 
 				r_language_server = {
 					opts = {
@@ -497,7 +507,7 @@ require("lazy").setup({
 
 				marksman = {
 					capabilities = capabilities,
-					filetypes = { "markdown", "quarto" },
+					filetypes = { "quarto" }, -- Temporarily removed "markdown" to isolate harper_ls
 					root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
 				},
 
@@ -506,9 +516,20 @@ require("lazy").setup({
 				},
 
 				bashls = {
-					capabilities = capabilities,
 					filetypes = { "sh", "bash" },
 				},
+				-- ltex_plus = {
+				-- 	settings = {
+				-- 		ltex = {
+				-- 			language = "fr,en,es",
+				-- 			dictionary = {
+				-- 				["en"] = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+				-- 				["fr"] = vim.fn.stdpath("config") .. "/spell/fr.utf-8.add",
+				-- 				["es"] = vim.fn.stdpath("config") .. "/spell/es.utf-8.add",
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
 			}
 
 			-- Ensure the servers and tools above are installed
@@ -565,7 +586,10 @@ require("lazy").setup({
 				end
 			end,
 			formatters_by_ft = {
-				lua = { "stylua" },
+				lua = {
+					"stylua",
+					args = { "--indent-type", "Spaces", "--indent-width", "2" },
+				},
 				-- Conform can also run multiple formatters sequentially
 				python = function(bufnr)
 					if require("conform").get_formatter_info("ruff_format", bufnr).available then
@@ -612,7 +636,7 @@ require("lazy").setup({
 				},
 				opts = {},
 			},
-			"folke/lazydev.nvim",
+			"Exafunction/windsurf.nvim",
 		},
 		--- @module 'blink.cmp'
 		--- @type blink.cmp.Config
@@ -648,7 +672,7 @@ require("lazy").setup({
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 				-- Adjusts spacing to ensure icons are aligned
-				nerd_font_variant = "mono",
+				nerd_font_variant = "normal",
 			},
 
 			completion = {
@@ -666,18 +690,11 @@ require("lazy").setup({
 
 			sources = {
 				default = function()
-					-- Check if we're in a todo window
-					local win_config = vim.api.nvim_win_get_config(0)
-					local is_todo_window = win_config.title
-						and type(win_config.title) == "table"
-						and win_config.title[1]
-						and type(win_config.title[1]) == "table"
-						and (win_config.title[1][1] == " Add Todo " or win_config.title[1][1] == " Edit Todo ")
-
-					if is_todo_window then
+					local ui = require("todo-txt.ui")
+					if ui.is_todo_input_window() then
 						return { "todo" }
 					else
-						return { "lsp", "path", "snippets", "buffer", "lazydev", "todo" }
+						return { "lsp", "path", "snippets", "buffer", "lazydev", "todo", "codeium" }
 					end
 				end,
 				-- todo-txt pandoc_references calc latex_symbols emoji
@@ -791,7 +808,7 @@ require("lazy").setup({
 				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
 				--  If you are experiencing weird indenting issues, add the language to
 				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
+				-- additional_vim_regex_highlighting = { "ruby" },
 			},
 			indent = { enable = true, disable = { "ruby" } },
 		},
@@ -831,9 +848,12 @@ require("lazy").setup({
 	},
 })
 
--- require('lspconfig').sourcery.setup {
---   cmd = { '/home/linuxbrew/.linuxbrew/bin/sourcery', 'lsp' },
--- }
+vim.lsp.config("sourcery", {})
+-- 	cmd = { "/home/linuxbrew/.linuxbrew/bin/sourcery", "lsp" },
+-- })
+-- require("lspconfig").sourcery.setup({
+-- 	cmd = { "/home/linuxbrew/.linuxbrew/bin/sourcery", "lsp" },
+-- })
 
 -- Set snakemake filetype
 local snakemake = vim.api.nvim_create_augroup("snakemake", { clear = true })

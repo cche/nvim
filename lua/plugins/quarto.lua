@@ -12,6 +12,7 @@ return {
 						write_to_disk = true,
 					},
 				},
+				"nvim-treesitter/nvim-treesitter",
 			},
 		},
 		keys = {
