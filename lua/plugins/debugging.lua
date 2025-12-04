@@ -1,17 +1,4 @@
 return {
-<<<<<<< HEAD
-  { "nvim-neotest/neotest",
-    dependencies = { "nvim-neotest/neotest-python" },
-    config = function()
-      require("neotest").setup {
-        adapters = {
-          require("neotest-python")
-        }
-      }
-    end,
-    keys = {
-      { "<leader>dtt", ":lua require'neotest'.run.run({strategy = 'dap'})<cr>", desc = "test" },
-=======
   {
     "nvim-neotest/neotest",
     event = "VeryLazy",
@@ -38,20 +25,10 @@ return {
     end,
     keys = {
       { "<leader>dtt", ":lua require'neotest'.run.run()<cr>", desc = "test" },
->>>>>>> master
       { "<leader>dts", ":lua require'neotest'.run.stop()<cr>", desc = "stop test" },
       { "<leader>dta", ":lua require'neotest'.run.attach()<cr>", desc = "attach test" },
       { "<leader>dtf", ":lua require'neotest'.run.run(vim.fn.expand('%'))<cr>", desc = "test file" },
       { "<leader>dts", ":lua require'neotest'.summary.toggle()<cr>", desc = "test summary" },
-<<<<<<< HEAD
-    }
-  },
-
-  -- debug adapter protocol
-  { 'mfussenegger/nvim-dap',
-    dependencies = {
-      { 'rcarriga/nvim-dap-ui',
-=======
     },
   },
 
@@ -65,35 +42,10 @@ return {
         dependencies = {
           "nvim-neotest/nvim-nio",
         },
->>>>>>> master
         config = function()
           -- vim.fn.sign_define('DapBreakpoint', { text = '🦦', texthl = '', linehl = '', numhl = '' })
           require("dapui").setup({
             -- Set icons to characters that are more likely to work in every terminal.
-<<<<<<< HEAD
-            icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-            controls = {
-              icons = {
-                pause = '⏸',
-                play = '▶',
-                step_into = '⏎',
-                step_over = '⏭',
-                step_out = '⏮',
-                step_back = 'b',
-                run_last = '▶▶',
-                terminate = '⏹',
-                disconnect = "⏏",
-              },
-            }
-          })
-        end
-      },
-      { 'mfussenegger/nvim-dap-python',
-        config = function()
-          require('dap-python').setup()
-          require('dap.ext.vscode').load_launchjs('launch.json')
-        end
-=======
             icons = { expanded = "▾", collapsed = "▸", current_frame = "*" },
             controls = {
               icons = {
@@ -118,7 +70,6 @@ return {
           require("dap-python").setup()
           require("dap.ext.vscode").load_launchjs("launch.json")
         end,
->>>>>>> master
       },
     },
     keys = {
