@@ -1,4 +1,5 @@
 return {
+<<<<<<< HEAD
   'arnarg/todotxt.nvim',
   dependencies = {
     'MunifTanjim/nui.nvim'
@@ -88,4 +89,14 @@ return {
       },
     }
   end,
+=======
+	{
+		"cche/todo-txt.nvim",
+		config = function()
+			require("todo-txt").setup({
+				todo_file = "~/Dropbox/Apps/Simpletask/todo.txt",
+			})
+		end,
+	},
+>>>>>>> master
 }

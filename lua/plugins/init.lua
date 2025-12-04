@@ -3,6 +3,7 @@
 --
 -- See the kickstart.nvim README for more information
 return {
+<<<<<<< HEAD
   {
     "chrishrb/gx.nvim",
     event = { "BufEnter" },
@@ -33,4 +34,12 @@ return {
       }
     end
   },
+=======
+	{
+		"chrishrb/gx.nvim",
+		event = { "BufEnter" },
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = true, -- default settings
+	},
+>>>>>>> master
 }
