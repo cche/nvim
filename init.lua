@@ -442,11 +442,6 @@ require("lazy").setup({
         },
       })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add blink.cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
-      local capabilities = require("blink.cmp").get_lsp_capabilities()
       --  Add any additional override configuration in the following tables. Available keys are:
       --  - cmd (table): Override the default command used to start the server
       --  - filetypes (table): Override the default list of associated filetypes for the server
@@ -482,21 +477,44 @@ require("lazy").setup({
           },
         },
 
+        stylua = {},
+
         lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = "Replace",
+          on_init = function(client)
+            if client.workspace_folders then
+              local path = client.workspace_folders[1].name
+              if
+                path ~= vim.fn.stdpath("config")
+                and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+              then
+                return
+              end
+            end
+
+            client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+              runtime = {
+                version = "LuaJIT",
+                path = { "lua/?.lua", "lua/?/init.lua" },
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
+              workspace = {
+                checkThirdParty = false,
+                -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
+                --  See https://github.com/neovim/nvim-lspconfig/issues/3189
+                library = vim.tbl_extend("force", vim.api.nvim_get_runtime_file("", true), {
+                  "${3rd}/luv/library",
+                  "${3rd}/busted/library",
+                }),
+              },
+            })
+          end,
+          settings = {
+            Lua = {},
           },
         },
 
         marksman = {
           capabilities = capabilities,
-          filetypes = { "quarto" }, -- Temporarily removed "markdown" to isolate harper_ls
+          filetypes = { "quarto", "markdown" }, -- Temporarily removed "markdown" to isolate harper_ls
           root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
         },
 
