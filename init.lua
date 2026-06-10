@@ -109,6 +109,7 @@ vim.opt.spellfile = {
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Diagnostic keymaps
+  -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
 vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show diagnostic Error messages" })
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Open diagnostic Quickfix list" })
 
