@@ -70,25 +70,29 @@ return {
       ---
       ---@field notes_subdir? string
       ---@field note_id_func? (fun(title: string|?, path: obsidian.Path|?): string)
-      customizations = {},
+      customizations = {
+        meeting_template = {
+          notes_subdir = "meeting",
+        },
+      },
     },
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an external
     -- URL it will be ignored but you can customize this behavior here.
-    follow_url_func = function(url)
-      -- Open the URL in the default web browser.
-      -- vim.fn.jobstart({"open", url})  -- Mac OS
-      vim.fn.jobstart({ "xdg-open", url }) -- linux
-    end,
+    -- follow_url_func = function(url)
+    --   -- Open the URL in the default web browser.
+    --   -- vim.fn.jobstart({"open", url})  -- Mac OS
+    --   vim.ui.open(url) -- open in new tab-open", url }) -- linux
+    -- end,
 
     -- Optional, by default when you use `:ObsidianFollowLink` on a link to an image
     -- file it will be ignored but you can customize this behavior here.
     ---@param img string
-    follow_img_func = function(img)
-      -- vim.fn.jobstart { "qlmanage", "-p", img }  -- Mac OS quick look preview
-      vim.fn.jobstart({ "xdg-open", img }) -- linux
-      -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
-    end,
+    -- follow_img_func = function(img)
+    --   -- vim.fn.jobstart { "qlmanage", "-p", img }  -- Mac OS quick look preview
+    --   vim.ui.open(img) -- linux
+    --   -- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+    -- end,
 
     picker = {
       -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', or 'mini.pick'.
