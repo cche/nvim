@@ -1,6 +1,6 @@
 return {
   "folke/which-key.nvim",
-  event = "VeryLazy",
+  event = "VimEnter",
   opts = {
     spec = {
       { "<leader>c", group = "code" },
@@ -20,8 +20,8 @@ return {
       { "<leader>fr", "<cmd>Telescope lsp_references<cr>", desc = "references" },
       { "<leader>fw", "<cmd>Telescope file_browser<cr>", desc = "File browser" },
       { "<leader>g", group = "Git" },
-      { "<leader>gc", "<cmd>Neogit commit<cr>", desc = "commit" },
-      { "<leader>gg", "<cmd>Neogit<cr>", desc = "neogit" },
+      -- { "<leader>gc", "<cmd>Neogit commit<cr>", desc = "commit" },
+      -- { "<leader>gg", "<cmd>Neogit<cr>", desc = "neogit" },
       { "<leader>l", group = "LSP" },
       { "<leader>o", group = "Obsidian" },
       { "<leader>oa", "<cmd>Obsidian tags<cr>", desc = "tags" },
@@ -30,7 +30,7 @@ return {
       { "<leader>oe", "<cmd>Obsidian extract_note<cr>", desc = "extract note" },
       { "<leader>of", "<cmd>Obsidian follow_link<cr>", desc = "follow link" },
       { "<leader>ol", "<cmd>Obsidian link<cr>", desc = "create link to note" },
-      { "<leader>oL", "<cmd>Obsidian link_new<cr>", desc = "create new link" },
+      { "<leader>oL", "<cmd>Obsidian link_new<cr>", mode = { "v" }, desc = "create new link" },
       { "<leader>on", "<cmd>Obsidian new<cr>", desc = "new note" },
       { "<leader>oo", "<cmd>Obsidian quick_switch<cr>", desc = "quick switch" },
       { "<leader>op", "<cmd>Obsidian paste_img<cr>", desc = "Paste image" },
@@ -52,6 +52,7 @@ return {
       { "<leader>t", group = "Todo" },
       { "<leader>w", group = "Workspace" },
       { "<leader>x", "<cmd>bd<cr>", desc = "close buffer" },
+      { "gr", group = "LSP Actions", mode = { "n" } },
     },
   },
   -- spelling = {
