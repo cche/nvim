@@ -494,7 +494,6 @@ require("lazy").setup({
 
   { -- Autoformat
     "stevearc/conform.nvim",
-    lazy = false,
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
@@ -523,11 +522,14 @@ require("lazy").setup({
           }
         end
       end,
-      formatters_by_ft = {
-        lua = {
-          "stylua",
-          args = { "--indent-type", "Spaces", "--indent-width", "2" },
+      formatters = {
+        stylua = {
+          prepend_args = { "--indent-type", "Spaces", "--indent-width", "2" },
         },
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        snakemake = { "snakefmt" },
         -- Conform can also run multiple formatters sequentially
         python = function(bufnr)
           if require("conform").get_formatter_info("ruff_format", bufnr).available then

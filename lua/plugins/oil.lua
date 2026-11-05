@@ -8,6 +8,8 @@ return {
       keymaps = {
         ['<C-h>'] = false,
         ['<M-h>'] = 'actions.select_split',
+        ['<C-l>'] = false,
+        ['<M-l>'] = 'actions.refresh',
       },
       view_options = {
         show_hidden = true,

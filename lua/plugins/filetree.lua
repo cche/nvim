@@ -9,6 +9,7 @@ return {
   config = function()
     require("neo-tree").setup({
       close_if_last_window = true,
+      filesystem = { hijack_netrw_behavior = "disabled" },
       event_handlers = {
         {
           event = "file_opened",
