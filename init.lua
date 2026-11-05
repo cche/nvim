@@ -600,6 +600,9 @@ require("lazy").setup({
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
+      enabled = function()
+        return not vim.tbl_contains({ "typr", "mail" }, vim.bo.filetype)
+      end,
 
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
@@ -633,7 +636,7 @@ require("lazy").setup({
         providers = {
           todo = { name = "todo-txt", module = "todo-blink" },
           codeium = { name = "Codeium", module = "codeium.blink", async = true },
-          lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+          -- lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
           dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
         },
       },
