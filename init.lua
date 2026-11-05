@@ -121,9 +121,17 @@ vim.diagnostic.config({
   severity_sort = true,
   float = { border = "rounded", source = "if_many" },
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
+  signs = vim.g.have_nerd_font and {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "󰅚 ",
+      [vim.diagnostic.severity.WARN] = "󰀪 ",
+      [vim.diagnostic.severity.INFO] = "󰋽 ",
+      [vim.diagnostic.severity.HINT] = "󰌶 ",
+    },
+  } or {},
 
   -- Can switch between these as you prefer
-  virtual_text = true, -- Text shows up at the end of the line
+  virtual_text = { source = "if_many", spacing = 2 }, -- Text shows up at the end of the line
   virtual_lines = false, -- Text shows up underneath the line, with virtual lines
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
@@ -420,35 +428,6 @@ require("lazy").setup({
         end,
       })
 
-      -- Diagnostic Config
-      -- See :help vim.diagnostic.Opts
-      vim.diagnostic.config({
-        severity_sort = true,
-        float = { border = "rounded", source = "if_many" },
-        underline = { severity = vim.diagnostic.severity.ERROR },
-        signs = vim.g.have_nerd_font and {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "󰅚 ",
-            [vim.diagnostic.severity.WARN] = "󰀪 ",
-            [vim.diagnostic.severity.INFO] = "󰋽 ",
-            [vim.diagnostic.severity.HINT] = "󰌶 ",
-          },
-        } or {},
-        virtual_text = {
-          source = "if_many",
-          spacing = 2,
-          format = function(diagnostic)
-            local diagnostic_message = {
-              [vim.diagnostic.severity.ERROR] = diagnostic.message,
-              [vim.diagnostic.severity.WARN] = diagnostic.message,
-              [vim.diagnostic.severity.INFO] = diagnostic.message,
-              [vim.diagnostic.severity.HINT] = diagnostic.message,
-            }
-            return diagnostic_message[diagnostic.severity]
-          end,
-        },
-      })
-
       --  Add any additional override configuration in the following tables. Available keys are:
       --  - cmd (table): Override the default command used to start the server
       --  - filetypes (table): Override the default list of associated filetypes for the server
@@ -459,30 +438,13 @@ require("lazy").setup({
         -- clangd = {},
         -- gopls = {},
         pyright = {
-          opts = {
-            -- all the opts nillable
-            root_dir = function(fname)
-              return require("lspconfig.util").root_pattern(
-                ".git",
-                "setup.py",
-                "setup.cfg",
-                "pyproject.toml",
-                "requirements.txt"
-              )(fname) or vim.fs.dirname(fname)
-            end,
-          },
+          -- all the opts nillable
+          root_markers = { ".git", "setup.py", "setup.cfg", "pyproject.toml", "requirements.txt" },
         },
 
         ruff = {},
 
-        r_language_server = {
-          opts = {
-            -- on_attach = on_attach,
-            capabilities = capabilities,
-            -- flags = lsp_flags,
-            cmd = { "/usr/bin/R", "--slave", "-e", "languageserver::run()" },
-          },
-        },
+        r_language_server = {},
 
         stylua = {},
 
@@ -507,7 +469,7 @@ require("lazy").setup({
                 checkThirdParty = false,
                 -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
                 --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-                library = vim.tbl_extend("force", vim.api.nvim_get_runtime_file("", true), {
+                library = vim.list_extend(vim.api.nvim_get_runtime_file("", true), {
                   "${3rd}/luv/library",
                   "${3rd}/busted/library",
                 }),
@@ -520,51 +482,16 @@ require("lazy").setup({
         },
 
         marksman = {
-          capabilities = capabilities,
-          filetypes = { "quarto", "markdown" }, -- Temporarily removed "markdown" to isolate harper_ls
-          root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+          filetypes = { "quarto", "markdown" },
+          root_markers = { ".git", ".marksman.toml", "_quarto.yml" },
         },
 
-        yamlls = {
-          capabilities = capabilities,
-        },
+        yamlls = {},
 
         bashls = {
           filetypes = { "sh", "bash" },
         },
         typos_lsp = {},
-        --
-        -- harper_ls = {
-        -- 	opts = {
-        -- 		root_dir = function(fname)
-        -- 			return require("lspconfig.util").root_pattern(".git")(fname) or vim.fs.dirname(fname)
-        -- 		end,
-        -- 	},
-        -- 	-- filetypes = { "mail", "text" },
-        -- 	settings = {
-        -- 		["harper-ls"] = {
-        -- 			userDictPath = "~/.config/nvim/spell/en.utf-8.add",
-        -- 			isolateEnglish = true,
-        -- 			dialect = "British",
-        -- 			markdown = {
-        -- 				IgnoreLinkTitle = true,
-        -- 			},
-        -- 		},
-        -- 	},
-        -- },
-
-        -- ltex_plus = {
-        -- 	settings = {
-        -- 		ltex = {
-        -- 			language = "fr,en,es",
-        -- 			dictionary = {
-        -- 				["en"] = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
-        -- 				["fr"] = vim.fn.stdpath("config") .. "/spell/fr.utf-8.add",
-        -- 				["es"] = vim.fn.stdpath("config") .. "/spell/es.utf-8.add",
-        -- 			},
-        -- 		},
-        -- 	},
-        -- },
       }
 
       -- Ensure the servers and tools above are installed
