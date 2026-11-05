@@ -24,17 +24,6 @@ vim.o.showmode = false
 
 vim.opt.foldenable = false
 
--- check if treesitter indentation is available for this language, and if so enable it
--- in case there is no indent query, the indentexpr will fallback to the vim's built in one
--- local has_indent_query = vim.treesitter.query.get(language, "indent") ~= nil
-
--- enables treesitter based indentation
--- if has_indent_query then
---   vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
--- end
-
---  local available_parsers = require("nvim-treesitter").get_available()
-
 -- Global floating window border (Neovim 0.11+)
 -- See :help 'winborder'
 if vim.fn.has("nvim-0.11") == 1 then
@@ -165,8 +154,10 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- Tab switch buffer
-vim.keymap.set("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
-vim.keymap.set("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<TAB>", "<cmd>bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-TAB>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
+-- Keep <C-i> as jump-forward when the terminal distinguishes it from <Tab> (CSI-u / extended keys)
+vim.keymap.set("n", "<C-i>", "<C-i>", { desc = "Jump forward" })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -652,7 +643,7 @@ require("lazy").setup({
       -- the rust implementation via `'prefer_rust_with_warning'`
       --
       -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = "lua" },
+      fuzzy = { implementation = "prefer_rust_with_warning" },
 
       -- Shows a signature help window while you type arguments for a function
       signature = { enabled = true },
@@ -760,11 +751,14 @@ require("lazy").setup({
         -- vim.wo.foldmethod = 'expr'
 
         -- enables treesitter based indentation
-        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        if vim.treesitter.query.get(language, "indents") then
+          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end
       end
 
       local available_parsers = require("nvim-treesitter").get_available()
       vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter-attach", { clear = true }),
         callback = function(args)
           local buf, filetype = args.buf, args.match
 
@@ -792,13 +786,6 @@ require("lazy").setup({
     end,
   },
 
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  require("kickstart.plugins.gitsigns"), -- adds gitsigns recommend keymaps
-
   { import = "plugins" },
   ---@diagnostic disable-next-line: missing-fields
 }, {
@@ -823,22 +810,10 @@ require("lazy").setup({
   },
 })
 
-vim.lsp.config("sourcery", {})
--- require("lspconfig").sourcery.setup({
--- 	cmd = { "/home/linuxbrew/.linuxbrew/bin/sourcery", "lsp" },
--- })
-
 -- Set snakemake filetype
-local snakemake = vim.api.nvim_create_augroup("snakemake", { clear = true })
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = "Snakefile,*.smk",
-  command = "set filetype=snakemake",
-  group = snakemake,
-})
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = "Snakefile,*.smk",
-  command = ":Snakefmt",
-  group = snakemake,
+vim.filetype.add({
+  filename = { Snakefile = "snakemake" },
+  extension = { smk = "snakemake" },
 })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

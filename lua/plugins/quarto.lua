@@ -4,6 +4,90 @@ return {
     ft = { "quarto", "rmd" },
     dev = false,
     opts = {},
+    -- Override quartoPreview to reuse the `tabnew` buffer instead of orphaning
+    -- it (upstream creates a second buffer, leaving an empty [No Name] behind).
+    config = function()
+      local api = vim.api
+      local quarto = require("quarto")
+      local util = require("quarto.util")
+      local tools = require("quarto.tools")
+
+      quarto.quartoPreview = function(opts)
+        opts = opts or {}
+        local args = opts.args or ""
+
+        local buffer_path = api.nvim_buf_get_name(0)
+        local root_dir = util.root_pattern("_quarto.yml")(buffer_path)
+        local cmd
+        local mode
+
+        local render_on_save = true
+        local lines
+        if root_dir then
+          lines = vim.fn.readfile(root_dir .. "/_quarto.yml")
+        else
+          lines = api.nvim_buf_get_lines(0, 0, 500, false)
+        end
+
+        for _, line in ipairs(lines) do
+          if line:find("render%-on%-save: false") then
+            render_on_save = false
+            break
+          end
+        end
+
+        if not render_on_save and not args:find("%-%-no%-watch%-inputs") then
+          args = args .. " --no-watch-inputs"
+        end
+
+        if root_dir then
+          mode = "project"
+          cmd = "quarto preview " .. vim.fn.shellescape(root_dir) .. " " .. args
+        else
+          mode = "file"
+          cmd = "quarto preview " .. vim.fn.shellescape(buffer_path) .. " " .. args
+        end
+
+        local quarto_extensions = { ".qmd", ".Rmd", ".ipynb", ".md", ".py", ".R", ".jl" }
+        local file_extension = buffer_path:match("^.+(%..+)$")
+        if mode == "file" and not file_extension then
+          vim.notify("Not in a file. exiting.")
+          return
+        end
+        if mode == "file" and not tools.contains(quarto_extensions, file_extension) then
+          vim.notify("Not a quarto file, ends in " .. file_extension .. " exiting.")
+          return
+        end
+
+        local current_tabpage = api.nvim_get_current_tabpage()
+
+        vim.cmd("tabnew")
+        vim.fn.termopen(cmd, {
+          on_exit = function(_, exit_code, _)
+            if exit_code ~= 0 then
+              vim.notify("Quarto preview exited with code " .. exit_code, vim.log.levels.ERROR)
+            end
+          end,
+        })
+
+        local quartoOutputBuf = api.nvim_get_current_buf()
+
+        api.nvim_set_current_tabpage(current_tabpage)
+        api.nvim_buf_set_var(0, "quartoOutputBuf", quartoOutputBuf)
+
+        if QuartoConfig.closePreviewOnExit then
+          api.nvim_create_autocmd({ "QuitPre", "WinClosed" }, {
+            buffer = api.nvim_get_current_buf(),
+            group = api.nvim_create_augroup("quartoPreview", {}),
+            callback = function()
+              if api.nvim_buf_is_loaded(quartoOutputBuf) then
+                api.nvim_buf_delete(quartoOutputBuf, { force = true })
+              end
+            end,
+          })
+        end
+      end
+    end,
     dependencies = {
       {
         "jmbuhr/otter.nvim",
