@@ -17,9 +17,11 @@ return {
           require("neotest-plenary")({}),
         },
         projects = {
-          ["~/src/github/todo-txt.nvim"] = require("neotest-plenary")({
-            min_init = "~/.config/nvim-dev/init.lua",
-          }),
+          ["~/src/github/todo-txt.nvim"] = {
+            adapters = {
+              require("neotest-plenary")({ min_init = "~/.config/nvim-dev/init.lua" }),
+            },
+          },
         },
       })
     end,
@@ -28,7 +30,7 @@ return {
       { "<leader>dts", ":lua require'neotest'.run.stop()<cr>", desc = "stop test" },
       { "<leader>dta", ":lua require'neotest'.run.attach()<cr>", desc = "attach test" },
       { "<leader>dtf", ":lua require'neotest'.run.run(vim.fn.expand('%'))<cr>", desc = "test file" },
-      { "<leader>dts", ":lua require'neotest'.summary.toggle()<cr>", desc = "test summary" },
+      { "<leader>dtS", ":lua require'neotest'.summary.toggle()<cr>", desc = "test summary" },
     },
   },
 
@@ -77,7 +79,7 @@ return {
       { "<leader>do", ": lua require'dap'.step_over()<cr>", desc = "debug over" },
       { "<leader>di", ": lua require'dap'.step_into()<cr>", desc = "debug into" },
       { "<leader>dr", ": lua require'dap'.repl_open()<cr>", desc = "debug repl" },
-      { "<leader>du", ": lua require'dapui'.toggle()<cr>", desc = "debug into" },
+      { "<leader>du", ": lua require'dapui'.toggle()<cr>", desc = "debug UI" },
     },
   },
 }

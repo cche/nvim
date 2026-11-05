@@ -12,8 +12,8 @@ return {
           --   write_to_disk = true,
           -- },
         },
-        "nvim-treesitter/nvim-treesitter",
       },
+      "nvim-treesitter/nvim-treesitter",
     },
     keys = {
       { "<leader>qa", ":QuartoActivate<cr>", desc = "quarto activate" },
@@ -24,16 +24,11 @@ return {
       { "<leader>qE", ":lua require'otter'.export(true)<cr>", desc = "quarto export overwrite" },
       { "<leader>qrr", ":QuartoSendAbove<cr>", desc = "quarto run to cursor" },
       { "<leader>qra", ":QuartoSendAll<cr>", desc = "quarto run all" },
-      { "<leader><cr>", ":SlimeSend<cr>", desc = "send code chunk" },
-      { "<c-cr>", ":SlimeSend<cr>", desc = "send code chunk" },
-      { "<c-cr>", "<esc>:SlimeSend<cr>i", mode = "i", desc = "send code chunk" },
-      { "<c-cr>", "<Plug>SlimeRegionSend<cr>", mode = "v", desc = "send code chunk" },
-      { "<cr>", "<Plug>SlimeRegionSend<cr>", mode = "v", desc = "send code chunk" },
       -- { '<leader>cp', '<esc>i```{python}<cr>```<esc>O', desc = 'New python chunk' },
       -- { '<leader>cr', '<esc>i```{r}<cr>```<esc>O', desc = 'New R chunk' },
       { "<leader>ctr", ":split term://R<cr>", desc = "terminal: R" },
       { "<leader>ctp", ":split term://ipython<cr>", desc = "terminal: ipython" },
-      { "<leader>ctj", ":split term://julia<cr>", desc = "terminal: julia" },
+      -- { "<leader>ctj", ":split term://julia<cr>", desc = "terminal: julia" },
     },
   },
 
@@ -61,8 +56,14 @@ return {
   {
     "jpalardy/vim-slime",
     dev = false,
-    event = "VeryLazy",
     ft = { "quarto", "python", "r", "qmd", "rmd" },
+    keys = {
+      { "<leader><cr>", ":SlimeSend<cr>", ft = { "quarto", "rmd", "python", "r" }, desc = "send code chunk" },
+      { "<c-cr>", ":SlimeSend<cr>", ft = { "quarto", "rmd", "python", "r" }, desc = "send code chunk" },
+      { "<c-cr>", "<esc>:SlimeSend<cr>i", mode = "i", ft = { "quarto", "rmd", "python", "r" }, desc = "send code chunk" },
+      { "<c-cr>", "<Plug>SlimeRegionSend", mode = "v", ft = { "quarto", "rmd", "python", "r" }, remap = true, desc = "send code chunk" },
+      { "<cr>", "<Plug>SlimeRegionSend", mode = "v", ft = { "quarto", "rmd", "python", "r" }, remap = true, desc = "send code chunk" },
+    },
     init = function()
       vim.b["quarto_is_python_chunk"] = false
       Quarto_is_in_python_chunk = function()
@@ -90,7 +91,7 @@ return {
       vim.g.slime_python_ipython = 1
     end,
     config = function()
-      vim.b.slime_cell_delimiter = "```"
+      vim.g.slime_cell_delimiter = "```"
       vim.keymap.set({ "n", "i", "v" }, "<s-cr>", "<Plug>SlimeSendCell", { desc = "send code cell" })
       vim.g.slime_input_pid = false
       vim.g.slime_suggest_default = true
@@ -112,7 +113,6 @@ return {
 
   { -- paste an image from the clipboard or drag-and-drop
     "HakonHarnes/img-clip.nvim",
-    event = "BufEnter",
     ft = { "markdown", "quarto", "latex" },
     opts = {
       default = {

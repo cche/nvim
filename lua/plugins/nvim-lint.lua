@@ -5,7 +5,7 @@ return {
   config = function()
     require("lint").linters.snakelint = {
       name = "snakelint",
-      cmd = "/home/linuxbrew/.linuxbrew/bin/snakemake",
+      cmd = "snakemake",
       stdin = false, -- false if it doesn't support content input via stdin. If so filename is automatically added to the arguments.
       append_fname = true, -- Automatically append the file name to `args` if `stdin = false` (default: true)
       args = { "--lint", "text", "--snakefile" }, -- list of arguments. Can contain functions with zero arguments that will be evaluated once the linter is used.
@@ -14,7 +14,6 @@ return {
       env = nil, -- custom environment table to use with the external process. This replaces the *entire* environment, it is not additive.
       parser = function(lint_output, buffnr)
         local diagnostics = {}
-        local current_diagnostic = nil
 
         for line in lint_output:gmatch("(.-)\n\n\n?") do
           local linenum = 0
@@ -24,20 +23,18 @@ return {
           if string.find(line, "Lints for rule") then
             linenum, errmessage, rest = line:match("line (%d+), .- %*% (.-): (.*)")
           else
-            errmessage, linenum, rest = string.match(line, " \\* (.*) in line (%d+): (.*)")
+            errmessage, linenum, rest = string.match(line, " %* (.*) in line (%d+): (.*)")
           end
 
           if errmessage then
             local user_data = rest:gsub(" +", " ")
-            current_diagnostic = {
+            table.insert(diagnostics, {
               lnum = tonumber(linenum) - 1,
               col = 0,
               message = errmessage,
               source = "snakelint",
               user_data = user_data:match("^%s*(.-)%s*$"),
-            }
-            table.insert(diagnostics, current_diagnostic)
-            current_diagnostic = nil
+            })
           end
         end
 
